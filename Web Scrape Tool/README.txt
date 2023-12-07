@@ -1,0 +1,1 @@
+Basic web data scrape example using BeautifulSoup library

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chadbot</title>
+</head>
+<body>
+    <div>
+        <h2>Chat with Chadbot</h2>
+        <div id="chat-box"></div>
+        <input type="text" id="user_input" placeholder="Type your message...">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+    <script>
+    function sendMessage() {
+        let user_input = document.getElementById("user_input").value;
+        let chatBox = document.getElementById("chat-box");
+        
+        let userMessage = document.createElement("div");
+        userMessage.className = "user-message";
+        userMessage.textContent = "You: " + user_input;
+        chatBox.appendChild(userMessage);
+        
+        fetch('/ask', {
+            method: 'POST',
+            body: new URLSearchParams({ 'user_input': user_input }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            let botMessage = document.createElement("div");
+            botMessage.className = "bot-message";
+            botMessage.textContent = "Chadbot: " + data.response;
+            chatBox.appendChild(botMessage);
+        });
+
+        document.getElementById("user_input").value = '';
+    }
+
+
+    </script>
+</body>
+</html>
+
+<head>
+    <title>Chadbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        #chat-box {
+            width: 400px;
+            height: 300px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            background-color: #fff;
+            overflow-y: auto;
+            margin-bottom: 10px;
+        }
+
+        #user_input {
+            width: 320px;
+            padding: 5px;
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 5px 10px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
